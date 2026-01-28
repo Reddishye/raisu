@@ -93,10 +93,7 @@ public final class Version implements Comparable<Version> {
         if (this == obj) return true;
         if (!(obj instanceof Version)) return false;
         Version other = (Version) obj;
-        return major == other.major
-                && minor == other.minor
-                && patch == other.patch
-                && suffix.equals(other.suffix);
+        return major == other.major && minor == other.minor && patch == other.patch && suffix.equals(other.suffix);
     }
 
     @Override
