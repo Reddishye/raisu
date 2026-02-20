@@ -28,26 +28,19 @@ public final class RaisuLoader {
         if (currentInstance == null || currentVersion == null) {
             // First load
             setCurrentInstance(implementation, parsedVersion, pluginName);
-            plugin.getLogger().info(
-                    String.format("Raisu v%s loaded", parsedVersion));
+            plugin.getLogger().info(String.format("Raisu v%s loaded", parsedVersion));
             return implementation;
         }
 
         // At this point, currentVersion is guaranteed to be non-null
         if (parsedVersion.isNewerThan(currentVersion)) {
-            plugin.getLogger().info(
-                    String.format(
-                            "Raisu updated from v%s to v%s",
-                            currentVersion,
-                            parsedVersion));
+            plugin.getLogger().info(String.format("Raisu updated from v%s to v%s", currentVersion, parsedVersion));
             setCurrentInstance(implementation, parsedVersion, pluginName);
             return implementation;
         } else {
-            plugin.getLogger().fine(
-                    String.format(
-                            "Raisu v%s is older than current v%s, using existing",
-                            parsedVersion,
-                            currentVersion));
+            plugin.getLogger()
+                    .fine(String.format(
+                            "Raisu v%s is older than current v%s, using existing", parsedVersion, currentVersion));
             // Type is guaranteed because we always store T and return T
             Class<T> expectedType = getClass(implementation);
             return expectedType.cast(currentInstance);
