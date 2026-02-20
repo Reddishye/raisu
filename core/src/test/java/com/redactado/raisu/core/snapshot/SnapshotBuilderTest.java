@@ -34,9 +34,7 @@ class SnapshotBuilderTest {
                 .icon("🧪")
                 .build();
 
-        Snapshot snapshot = new SnapshotBuilderImpl()
-                .addCategory(category)
-                .build();
+        Snapshot snapshot = new SnapshotBuilderImpl().addCategory(category).build();
 
         assertEquals(1, snapshot.categories().size());
         assertTrue(snapshot.hasCategory("test"));
