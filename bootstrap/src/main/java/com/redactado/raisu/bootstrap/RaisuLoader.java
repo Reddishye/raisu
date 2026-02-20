@@ -1,6 +1,6 @@
 package com.redactado.raisu.bootstrap;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
