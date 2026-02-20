@@ -1,6 +1,7 @@
 package com.redactado.raisu.component;
 
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface ProgressBar extends Component {
 
@@ -16,7 +17,7 @@ public interface ProgressBar extends Component {
     }
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.PROGRESS_BAR;
     }
 }
