@@ -2,6 +2,7 @@ package com.redactado.raisu.component;
 
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface Graph extends Component {
 
@@ -12,7 +13,7 @@ public interface Graph extends Component {
     Map<String, Double> dataPoints();
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.GRAPH;
     }
 }
