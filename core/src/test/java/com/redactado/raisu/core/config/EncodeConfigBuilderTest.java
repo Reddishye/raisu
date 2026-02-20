@@ -19,9 +19,7 @@ class EncodeConfigBuilderTest {
 
     @Test
     void testWithEncryption() {
-        EncodeConfig config = new EncodeConfigBuilderImpl()
-                .password("secret")
-                .build();
+        EncodeConfig config = new EncodeConfigBuilderImpl().password("secret").build();
 
         assertTrue(config.encrypt());
         assertEquals("secret", config.password());
@@ -29,9 +27,8 @@ class EncodeConfigBuilderTest {
 
     @Test
     void testWithProvider() {
-        EncodeConfig config = new EncodeConfigBuilderImpl()
-                .provider(PasteProvider.PASTES_DEV)
-                .build();
+        EncodeConfig config =
+                new EncodeConfigBuilderImpl().provider(PasteProvider.PASTES_DEV).build();
 
         assertEquals(PasteProvider.PASTES_DEV, config.provider());
     }
