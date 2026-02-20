@@ -28,9 +28,7 @@ class ComponentTest {
 
     @Test
     void testTable() {
-        var table = new TableImpl(
-                List.of("Name", "Age"),
-                List.of(List.of("Alice", "25"), List.of("Bob", "30")));
+        var table = new TableImpl(List.of("Name", "Age"), List.of(List.of("Alice", "25"), List.of("Bob", "30")));
 
         assertEquals(List.of("Name", "Age"), table.headers());
         assertEquals(2, table.rows().size());
@@ -68,9 +66,8 @@ class ComponentTest {
 
     @Test
     void testTree() {
-        var root = new TreeNodeImpl("Root", List.of(
-                new TreeNodeImpl("Child 1", List.of()),
-                new TreeNodeImpl("Child 2", List.of())));
+        var root = new TreeNodeImpl(
+                "Root", List.of(new TreeNodeImpl("Child 1", List.of()), new TreeNodeImpl("Child 2", List.of())));
 
         var tree = new TreeImpl(root);
 
