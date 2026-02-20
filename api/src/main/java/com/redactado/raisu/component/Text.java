@@ -1,6 +1,7 @@
 package com.redactado.raisu.component;
 
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface Text extends Component {
 
@@ -8,7 +9,7 @@ public interface Text extends Component {
     String content();
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.TEXT;
     }
 }
