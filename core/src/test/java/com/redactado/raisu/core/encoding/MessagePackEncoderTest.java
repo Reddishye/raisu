@@ -26,9 +26,7 @@ class MessagePackEncoderTest {
                         .build())
                 .build();
 
-        var config = new EncodeConfigBuilderImpl()
-                .encrypt(false)
-                .build();
+        var config = new EncodeConfigBuilderImpl().encrypt(false).build();
 
         byte[] encoded = encoder.encode(snapshot, config);
 
@@ -43,9 +41,7 @@ class MessagePackEncoderTest {
                 .javaVersion("21.0.0")
                 .build();
 
-        var config = new EncodeConfigBuilderImpl()
-                .password("secret123")
-                .build();
+        var config = new EncodeConfigBuilderImpl().password("secret123").build();
 
         byte[] encoded = encoder.encode(snapshot, config);
 
