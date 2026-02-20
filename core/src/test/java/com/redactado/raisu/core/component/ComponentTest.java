@@ -40,7 +40,7 @@ class ComponentTest {
         var list = new ListImpl(List.of("Item 1", "Item 2", "Item 3"));
 
         assertEquals(3, list.items().size());
-        assertEquals("Item 1", list.items().get(0));
+        assertEquals("Item 1", list.items().getFirst());
         assertEquals(ComponentType.LIST, list.type());
     }
 
