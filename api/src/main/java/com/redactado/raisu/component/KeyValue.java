@@ -1,6 +1,7 @@
 package com.redactado.raisu.component;
 
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface KeyValue extends Component {
 
@@ -11,7 +12,7 @@ public interface KeyValue extends Component {
     String value();
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.KEY_VALUE;
     }
 }
