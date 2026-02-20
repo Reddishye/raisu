@@ -1,6 +1,7 @@
 package com.redactado.raisu.component;
 
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface List extends Component {
 
@@ -8,7 +9,7 @@ public interface List extends Component {
     java.util.List<String> items();
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.LIST;
     }
 }
