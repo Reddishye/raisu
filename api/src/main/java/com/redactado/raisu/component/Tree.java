@@ -2,6 +2,7 @@ package com.redactado.raisu.component;
 
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public interface Tree extends Component {
 
@@ -9,7 +10,7 @@ public interface Tree extends Component {
     TreeNode root();
 
     @Override
-    default ComponentType type() {
+    default @NonNull ComponentType type() {
         return ComponentType.TREE;
     }
 
