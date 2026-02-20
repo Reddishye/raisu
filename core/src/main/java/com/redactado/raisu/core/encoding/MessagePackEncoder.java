@@ -14,6 +14,8 @@ import com.redactado.raisu.snapshot.Snapshot;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
+
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.msgpack.core.MessagePack;
@@ -34,7 +36,7 @@ public final class MessagePackEncoder implements Encoder {
         byte[] data = baos.toByteArray();
 
         if (config.encrypt() && config.password() != null) {
-            return cipher.encrypt(data, config.password());
+            return cipher.encrypt(data, Objects.requireNonNull(config.password()));
         }
 
         return data;
