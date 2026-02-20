@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 public final class RaisuLoader {
 
-    private static final Logger LOGGER = Logger.getLogger("Raisu");
+//    private static final Logger LOGGER = Logger.getLogger("Raisu");
 
     @Nullable
     private static Object currentInstance;
