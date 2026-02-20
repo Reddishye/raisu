@@ -14,8 +14,7 @@ public final class AESCipher {
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final int IV_SIZE = 16;
 
-    @NotNull
-    public byte[] encrypt(@NotNull byte[] data, @NotNull String password) {
+    public byte @NotNull [] encrypt(byte @NotNull [] data, @NotNull String password) {
         try {
             byte[] key = deriveKey(password);
             byte[] iv = generateIV();
@@ -34,8 +33,7 @@ public final class AESCipher {
         }
     }
 
-    @NotNull
-    public byte[] decrypt(@NotNull byte[] data, @NotNull String password) {
+    public byte @NotNull [] decrypt(byte @NotNull [] data, @NotNull String password) {
         try {
             byte[] key = deriveKey(password);
             byte[] iv = Arrays.copyOfRange(data, 0, IV_SIZE);
@@ -50,8 +48,7 @@ public final class AESCipher {
         }
     }
 
-    @NotNull
-    private byte[] deriveKey(@NotNull String password) {
+    private byte @NotNull [] deriveKey(@NotNull String password) {
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-256");
             byte[] key = sha.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -61,8 +58,7 @@ public final class AESCipher {
         }
     }
 
-    @NotNull
-    private byte[] generateIV() {
+    private byte @NotNull [] generateIV() {
         byte[] iv = new byte[IV_SIZE];
         new SecureRandom().nextBytes(iv);
         return iv;
