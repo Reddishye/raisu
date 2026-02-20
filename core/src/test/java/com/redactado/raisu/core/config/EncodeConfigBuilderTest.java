@@ -35,8 +35,6 @@ class EncodeConfigBuilderTest {
 
     @Test
     void testEncryptWithoutPassword() {
-        assertThrows(IllegalStateException.class, () -> {
-            new EncodeConfigBuilderImpl().encrypt(true).build();
-        });
+        assertThrows(IllegalStateException.class, () -> new EncodeConfigBuilderImpl().encrypt(true).build());
     }
 }
