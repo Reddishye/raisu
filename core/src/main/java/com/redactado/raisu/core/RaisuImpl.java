@@ -11,6 +11,8 @@ import com.redactado.raisu.core.snapshot.SnapshotBuilderImpl;
 import com.redactado.raisu.exception.EncodeException;
 import com.redactado.raisu.snapshot.Snapshot;
 import com.redactado.raisu.snapshot.SnapshotBuilder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,10 +61,22 @@ public final class RaisuImpl implements Raisu {
     public String encode(@NotNull Snapshot snapshot, @NotNull EncodeConfig config) {
         try {
             byte[] encoded = encoder.encode(snapshot, config);
-            String url = pasteClient.upload(encoded, config.provider());
-            return url;
+            String pasteKey = pasteClient.upload(encoded, config.provider());
+            return buildShortcode(config, pasteKey);
         } catch (Exception e) {
             throw new EncodeException("Failed to encode snapshot", e);
         }
+    }
+
+    @NotNull
+    private String buildShortcode(@NotNull EncodeConfig config, @NotNull String pasteKey) {
+        String base = config.provider().shortId() + ":" + pasteKey;
+        if (config.encrypt() && config.password() != null) {
+            String encodedKey = Base64.getUrlEncoder()
+                    .withoutPadding()
+                    .encodeToString(config.password().getBytes(StandardCharsets.UTF_8));
+            return base + ":" + encodedKey;
+        }
+        return base;
     }
 }
