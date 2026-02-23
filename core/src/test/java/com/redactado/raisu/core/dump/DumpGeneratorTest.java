@@ -2,14 +2,16 @@ package com.redactado.raisu.core.dump;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.redactado.raisu.config.PasteProvider;
 import com.redactado.raisu.core.category.CategoryBuilderImpl;
 import com.redactado.raisu.core.component.*;
-import com.redactado.raisu.config.PasteProvider;
-import com.redactado.raisu.core.config.EncodeConfigBuilderImpl;
+import com.redactado.raisu.core.encoding.AESCipher;
 import com.redactado.raisu.core.encoding.MessagePackEncoder;
 import com.redactado.raisu.core.paste.PastesDevClient;
 import com.redactado.raisu.core.snapshot.SnapshotBuilderImpl;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,16 +98,28 @@ class DumpGeneratorTest {
                         .build())
                 .build();
 
-        var config = new EncodeConfigBuilderImpl().encrypt(false).build();
-        byte[] encoded = new MessagePackEncoder().encode(snapshot, config);
+        AESCipher cipher = new AESCipher();
+        byte[] aesKey = cipher.generateKey();
+        byte[] msgpack = new MessagePackEncoder().encode(snapshot);
+        byte[] encrypted = cipher.encrypt(msgpack, aesKey);
 
-        String pasteKey = new PastesDevClient().upload(encoded, PasteProvider.PASTES_DEV);
-        String shortcode = PasteProvider.PASTES_DEV.shortId() + ":" + pasteKey;
+        String pasteKey = new PastesDevClient().upload(encrypted, PasteProvider.PASTES_DEV);
+        String shortcode = packShortcode(PasteProvider.PASTES_DEV, pasteKey, aesKey);
 
         System.out.println("=== FRONTEND TEST DUMP ===");
         System.out.println(shortcode);
 
-        assertTrue(encoded.length > 0);
+        assertTrue(encrypted.length > 0);
+    }
+
+    private String packShortcode(PasteProvider provider, String pasteKey, byte[] aesKey) {
+        byte[] keyBytes = pasteKey.getBytes(StandardCharsets.UTF_8);
+        byte[] packed = new byte[1 + 1 + keyBytes.length + 16];
+        packed[0] = provider.id();
+        packed[1] = (byte) keyBytes.length;
+        System.arraycopy(keyBytes, 0, packed, 2, keyBytes.length);
+        System.arraycopy(aesKey, 0, packed, 2 + keyBytes.length, 16);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(packed);
     }
 
     private Map<String, Double> tpsHistory() {
