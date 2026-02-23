@@ -34,10 +34,7 @@ public final class HastebinClient implements PasteClient {
             }
 
             String json = responseBody.string();
-            JSONObject result = new JSONObject(json);
-            String key = result.getString("key");
-
-            return provider.getDefaultUrl() + "/" + key;
+            return new JSONObject(json).getString("key");
         }
     }
 }
