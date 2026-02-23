@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.redactado.raisu.Raisu;
 import com.redactado.raisu.category.Category;
 import com.redactado.raisu.config.EncodeConfig;
+import com.redactado.raisu.config.PasteProvider;
 import com.redactado.raisu.core.category.CategoryRegistry;
+import com.redactado.raisu.core.encoding.AESCipher;
 import com.redactado.raisu.core.encoding.Encoder;
 import com.redactado.raisu.core.paste.PasteClient;
 import com.redactado.raisu.core.snapshot.SnapshotBuilderImpl;
@@ -22,6 +24,7 @@ public final class RaisuImpl implements Raisu {
     private final CategoryRegistry categoryRegistry;
     private final Encoder encoder;
     private final PasteClient pasteClient;
+    private final AESCipher cipher = new AESCipher();
 
     @Inject
     public RaisuImpl(Plugin plugin, CategoryRegistry categoryRegistry, Encoder encoder, PasteClient pasteClient) {
@@ -60,23 +63,25 @@ public final class RaisuImpl implements Raisu {
     @NotNull
     public String encode(@NotNull Snapshot snapshot, @NotNull EncodeConfig config) {
         try {
-            byte[] encoded = encoder.encode(snapshot, config);
-            String pasteKey = pasteClient.upload(encoded, config.provider());
-            return buildShortcode(config, pasteKey);
+            byte[] aesKey = cipher.generateKey();
+            byte[] msgpack = encoder.encode(snapshot);
+            byte[] encrypted = cipher.encrypt(msgpack, aesKey);
+            String pasteKey = pasteClient.upload(encrypted, config.provider());
+            return packShortcode(config.provider(), pasteKey, aesKey);
         } catch (Exception e) {
             throw new EncodeException("Failed to encode snapshot", e);
         }
     }
 
     @NotNull
-    private String buildShortcode(@NotNull EncodeConfig config, @NotNull String pasteKey) {
-        String base = config.provider().shortId() + ":" + pasteKey;
-        if (config.encrypt() && config.password() != null) {
-            String encodedKey = Base64.getUrlEncoder()
-                    .withoutPadding()
-                    .encodeToString(config.password().getBytes(StandardCharsets.UTF_8));
-            return base + ":" + encodedKey;
-        }
-        return base;
+    private String packShortcode(
+            @NotNull PasteProvider provider, @NotNull String pasteKey, byte @NotNull [] aesKey) {
+        byte[] keyBytes = pasteKey.getBytes(StandardCharsets.UTF_8);
+        byte[] packed = new byte[1 + 1 + keyBytes.length + 16];
+        packed[0] = provider.id();
+        packed[1] = (byte) keyBytes.length;
+        System.arraycopy(keyBytes, 0, packed, 2, keyBytes.length);
+        System.arraycopy(aesKey, 0, packed, 2 + keyBytes.length, 16);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(packed);
     }
 }
