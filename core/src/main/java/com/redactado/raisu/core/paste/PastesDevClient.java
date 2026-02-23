@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Base64;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 public final class PastesDevClient implements PasteClient {
 
@@ -32,7 +33,8 @@ public final class PastesDevClient implements PasteClient {
                 throw new IOException("Empty response from Pastes.dev");
             }
 
-            String key = responseBody.string().trim();
+            String responseText = responseBody.string().trim();
+            String key = responseText.startsWith("{") ? new JSONObject(responseText).getString("key") : responseText;
             return "https://pastes.dev/" + key;
         }
     }
