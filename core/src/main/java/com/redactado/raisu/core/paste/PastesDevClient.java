@@ -35,7 +35,7 @@ public final class PastesDevClient implements PasteClient {
 
             String responseText = responseBody.string().trim();
             String key = responseText.startsWith("{") ? new JSONObject(responseText).getString("key") : responseText;
-            return "https://pastes.dev/" + key;
+            return key;
         }
     }
 }
