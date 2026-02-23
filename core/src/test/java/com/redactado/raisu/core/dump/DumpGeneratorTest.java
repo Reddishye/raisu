@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.redactado.raisu.core.category.CategoryBuilderImpl;
 import com.redactado.raisu.core.component.*;
+import com.redactado.raisu.config.PasteProvider;
 import com.redactado.raisu.core.config.EncodeConfigBuilderImpl;
 import com.redactado.raisu.core.encoding.MessagePackEncoder;
 import com.redactado.raisu.core.paste.PastesDevClient;
 import com.redactado.raisu.core.snapshot.SnapshotBuilderImpl;
-import com.redactado.raisu.config.PasteProvider;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,10 +99,11 @@ class DumpGeneratorTest {
         var config = new EncodeConfigBuilderImpl().encrypt(false).build();
         byte[] encoded = new MessagePackEncoder().encode(snapshot, config);
 
-        String url = new PastesDevClient().upload(encoded, PasteProvider.PASTES_DEV);
+        String pasteKey = new PastesDevClient().upload(encoded, PasteProvider.PASTES_DEV);
+        String shortcode = PasteProvider.PASTES_DEV.shortId() + ":" + pasteKey;
 
         System.out.println("=== FRONTEND TEST DUMP ===");
-        System.out.println(url);
+        System.out.println(shortcode);
 
         assertTrue(encoded.length > 0);
     }
