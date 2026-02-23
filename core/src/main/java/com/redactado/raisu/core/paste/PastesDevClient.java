@@ -14,7 +14,7 @@ public final class PastesDevClient implements PasteClient {
 
     @Override
     @NotNull
-    public String upload(@NotNull byte[] data, @NotNull PasteProvider provider) throws IOException {
+    public String upload(byte @NotNull [] data, @NotNull PasteProvider provider) throws IOException {
         String encoded = Base64.getEncoder().encodeToString(data);
 
         RequestBody body = RequestBody.create(encoded, TEXT);
@@ -34,8 +34,7 @@ public final class PastesDevClient implements PasteClient {
             }
 
             String responseText = responseBody.string().trim();
-            String key = responseText.startsWith("{") ? new JSONObject(responseText).getString("key") : responseText;
-            return key;
+            return responseText.startsWith("{") ? new JSONObject(responseText).getString("key") : responseText;
         }
     }
 }
