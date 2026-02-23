@@ -9,12 +9,10 @@ import com.redactado.raisu.component.ProgressBar;
 import com.redactado.raisu.component.Table;
 import com.redactado.raisu.component.Text;
 import com.redactado.raisu.component.Tree;
-import com.redactado.raisu.config.EncodeConfig;
 import com.redactado.raisu.snapshot.Snapshot;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -23,23 +21,13 @@ import org.msgpack.core.MessagePacker;
 
 public final class MessagePackEncoder implements Encoder {
 
-    private final AESCipher cipher = new AESCipher();
-
     @Override
-    @NotNull
-    public byte[] encode(@NotNull Snapshot snapshot, @NotNull EncodeConfig config) throws IOException {
+    public byte @NotNull [] encode(@NotNull Snapshot snapshot) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (MessagePacker packer = MessagePack.newDefaultPacker(baos)) {
             packSnapshot(packer, snapshot);
         }
-
-        byte[] data = baos.toByteArray();
-
-        if (config.encrypt() && config.password() != null) {
-            return cipher.encrypt(data, Objects.requireNonNull(config.password()));
-        }
-
-        return data;
+        return baos.toByteArray();
     }
 
     private void packSnapshot(@NotNull MessagePacker packer, @NotNull Snapshot snapshot) throws IOException {
