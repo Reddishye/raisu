@@ -1,7 +1,5 @@
 package com.redactado.raisu.core.encoding;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import javax.crypto.Cipher;
@@ -12,20 +10,27 @@ import org.jetbrains.annotations.NotNull;
 public final class AESCipher {
 
     private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+    private static final int KEY_SIZE = 16;
     private static final int IV_SIZE = 16;
 
-    public byte @NotNull [] encrypt(byte @NotNull [] data, @NotNull String password) {
+    public byte @NotNull [] generateKey() {
+        byte[] key = new byte[KEY_SIZE];
+        new SecureRandom().nextBytes(key);
+        return key;
+    }
+
+    public byte @NotNull [] encrypt(byte @NotNull [] data, byte @NotNull [] key) {
         try {
-            byte[] key = deriveKey(password);
-            byte[] iv = generateIV();
+            byte[] iv = new byte[IV_SIZE];
+            new SecureRandom().nextBytes(iv);
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(iv));
 
             byte[] encrypted = cipher.doFinal(data);
-            byte[] result = new byte[iv.length + encrypted.length];
-            System.arraycopy(iv, 0, result, 0, iv.length);
-            System.arraycopy(encrypted, 0, result, iv.length, encrypted.length);
+            byte[] result = new byte[IV_SIZE + encrypted.length];
+            System.arraycopy(iv, 0, result, 0, IV_SIZE);
+            System.arraycopy(encrypted, 0, result, IV_SIZE, encrypted.length);
 
             return result;
         } catch (Exception e) {
@@ -33,34 +38,17 @@ public final class AESCipher {
         }
     }
 
-    public byte @NotNull [] decrypt(byte @NotNull [] data, @NotNull String password) {
+    public byte @NotNull [] decrypt(byte @NotNull [] data, byte @NotNull [] key) {
         try {
-            byte[] key = deriveKey(password);
             byte[] iv = Arrays.copyOfRange(data, 0, IV_SIZE);
-            byte[] encrypted = Arrays.copyOfRange(data, IV_SIZE, data.length);
+            byte[] ciphertext = Arrays.copyOfRange(data, IV_SIZE, data.length);
 
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(iv));
 
-            return cipher.doFinal(encrypted);
+            return cipher.doFinal(ciphertext);
         } catch (Exception e) {
             throw new RuntimeException("Decryption failed", e);
         }
-    }
-
-    private byte @NotNull [] deriveKey(@NotNull String password) {
-        try {
-            MessageDigest sha = MessageDigest.getInstance("SHA-256");
-            byte[] key = sha.digest(password.getBytes(StandardCharsets.UTF_8));
-            return Arrays.copyOf(key, 16);
-        } catch (Exception e) {
-            throw new RuntimeException("Key derivation failed", e);
-        }
-    }
-
-    private byte @NotNull [] generateIV() {
-        byte[] iv = new byte[IV_SIZE];
-        new SecureRandom().nextBytes(iv);
-        return iv;
     }
 }
