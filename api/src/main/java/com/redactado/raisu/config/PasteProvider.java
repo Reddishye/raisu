@@ -1,22 +1,32 @@
 package com.redactado.raisu.config;
 
-public enum PasteProvider {
-    PASTES_DEV("P", "https://pastes.dev"),
-    HASTEBIN("H", "https://hastebin.com");
+import org.jetbrains.annotations.NotNull;
 
-    private final String shortId;
+public enum PasteProvider {
+    PASTES_DEV(0, "https://pastes.dev"),
+    HASTEBIN(1, "https://hastebin.com");
+
+    private final byte id;
     private final String defaultUrl;
 
-    PasteProvider(String shortId, String defaultUrl) {
-        this.shortId = shortId;
+    PasteProvider(int id, String defaultUrl) {
+        this.id = (byte) id;
         this.defaultUrl = defaultUrl;
     }
 
-    public String shortId() {
-        return shortId;
+    public byte id() {
+        return id;
     }
 
     public String getDefaultUrl() {
         return defaultUrl;
+    }
+
+    @NotNull
+    public static PasteProvider fromId(byte id) {
+        for (PasteProvider provider : values()) {
+            if (provider.id == id) return provider;
+        }
+        throw new IllegalArgumentException("Unknown provider id: " + id);
     }
 }
