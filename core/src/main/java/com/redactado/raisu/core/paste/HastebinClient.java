@@ -14,7 +14,7 @@ public final class HastebinClient implements PasteClient {
 
     @Override
     @NotNull
-    public String upload(@NotNull byte[] data, @NotNull PasteProvider provider) throws IOException {
+    public String upload(byte @NotNull [] data, @NotNull PasteProvider provider) throws IOException {
         String encoded = Base64.getEncoder().encodeToString(data);
 
         RequestBody body = RequestBody.create(encoded, TEXT);
