@@ -29,6 +29,7 @@ public interface Component {
         TIMELINE,
         SPARKLINE,
         GAUGE,
-        LINK
+        LINK,
+        IFRAME
     }
 }
