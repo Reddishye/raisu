@@ -1,38 +1,24 @@
 package com.redactado.raisu.bootstrap;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.util.logging.Logger;
-import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class RaisuLoaderTest {
 
-    private Plugin plugin;
-    private Logger logger;
+    private static final Logger LOGGER = Logger.getLogger("RaisuLoaderTest");
 
     @BeforeEach
     void setUp() {
-        logger = mock(Logger.class);
-        plugin = createMockPlugin("TestPlugin");
-
-        // Reset loader state
         RaisuLoader.reset();
-    }
-
-    private Plugin createMockPlugin(String name) {
-        Plugin p = mock(Plugin.class);
-        when(p.getName()).thenReturn(name);
-        when(p.getLogger()).thenReturn(logger);
-        return p;
     }
 
     @Test
     void testLoadFirstInstance() {
         Object impl = new Object();
-        Object result = RaisuLoader.load(plugin, "1.0.0", impl);
+        Object result = RaisuLoader.load(LOGGER, "TestPlugin", "1.0.0", impl);
 
         assertSame(impl, result);
         assertEquals(Version.parse("1.0.0"), RaisuLoader.getCurrentVersion());
@@ -44,10 +30,8 @@ class RaisuLoaderTest {
         Object impl1 = new Object();
         Object impl2 = new Object();
 
-        Plugin plugin2 = createMockPlugin("TestPlugin2");
-
-        RaisuLoader.load(plugin, "1.0.0", impl1);
-        Object result = RaisuLoader.load(plugin2, "2.0.0", impl2);
+        RaisuLoader.load(LOGGER, "TestPlugin", "1.0.0", impl1);
+        Object result = RaisuLoader.load(LOGGER, "TestPlugin2", "2.0.0", impl2);
 
         assertSame(impl2, result);
         assertEquals(Version.parse("2.0.0"), RaisuLoader.getCurrentVersion());
@@ -59,10 +43,8 @@ class RaisuLoaderTest {
         Object impl1 = new Object();
         Object impl2 = new Object();
 
-        Plugin plugin2 = createMockPlugin("TestPlugin2");
-
-        RaisuLoader.load(plugin, "2.0.0", impl1);
-        Object result = RaisuLoader.load(plugin2, "1.0.0", impl2);
+        RaisuLoader.load(LOGGER, "TestPlugin", "2.0.0", impl1);
+        Object result = RaisuLoader.load(LOGGER, "TestPlugin2", "1.0.0", impl2);
 
         assertSame(impl1, result);
         assertEquals(Version.parse("2.0.0"), RaisuLoader.getCurrentVersion());
@@ -74,10 +56,8 @@ class RaisuLoaderTest {
         Object impl1 = new Object();
         Object impl2 = new Object();
 
-        Plugin plugin2 = createMockPlugin("TestPlugin2");
-
-        RaisuLoader.load(plugin, "1.0.0", impl1);
-        Object result = RaisuLoader.load(plugin2, "1.0.0", impl2);
+        RaisuLoader.load(LOGGER, "TestPlugin", "1.0.0", impl1);
+        Object result = RaisuLoader.load(LOGGER, "TestPlugin2", "1.0.0", impl2);
 
         // First loaded wins on same version
         assertSame(impl1, result);

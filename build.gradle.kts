@@ -34,8 +34,8 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
         compileOnly("org.jetbrains:annotations:24.1.0")
+        compileOnly("org.jspecify:jspecify:1.0.0")
         compileOnly("com.google.errorprone:error_prone_annotations:2.35.1")
 
         add("errorprone", "com.google.errorprone:error_prone_core:2.35.1")
@@ -46,7 +46,6 @@ subprojects {
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         testImplementation("org.mockito:mockito-core:5.14.2")
         testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
-        testImplementation("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     }
 
     configure<SpotlessExtension> {

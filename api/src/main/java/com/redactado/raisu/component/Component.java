@@ -14,6 +14,21 @@ public interface Component {
         LIST,
         PROGRESS_BAR,
         GRAPH,
-        TREE
+        TREE,
+        // layout
+        COLUMN,
+        ROW,
+        GRID,
+        PANEL,
+        // display v2
+        BADGE,
+        STAT,
+        ALERT,
+        CODE_BLOCK,
+        LOG_VIEW,
+        TIMELINE,
+        SPARKLINE,
+        GAUGE,
+        LINK
     }
 }

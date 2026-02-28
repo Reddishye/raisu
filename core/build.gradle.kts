@@ -5,6 +5,7 @@ dependencies {
     implementation("org.msgpack:msgpack-core:0.9.8")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.json:json:20240303")
+    implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
 }
 
 publishing.publications.named<MavenPublication>("maven") {

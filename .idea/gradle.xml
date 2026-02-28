@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/bootstrap" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/platform-paper" />
+            <option value="$PROJECT_DIR$/platform-spigot" />
           </set>
         </option>
       </GradleProjectSettings>

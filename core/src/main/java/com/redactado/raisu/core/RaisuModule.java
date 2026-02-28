@@ -11,19 +11,19 @@ import com.redactado.raisu.core.encoding.MessagePackEncoder;
 import com.redactado.raisu.core.paste.HastebinClient;
 import com.redactado.raisu.core.paste.PasteClient;
 import com.redactado.raisu.core.paste.PastesDevClient;
-import org.bukkit.plugin.Plugin;
+import com.redactado.raisu.platform.RaisuPlatform;
 
 public final class RaisuModule extends AbstractModule {
 
-    private final Plugin plugin;
+    private final RaisuPlatform platform;
 
-    public RaisuModule(Plugin plugin) {
-        this.plugin = plugin;
+    public RaisuModule(RaisuPlatform platform) {
+        this.platform = platform;
     }
 
     @Override
     protected void configure() {
-        bind(Plugin.class).toInstance(plugin);
+        bind(RaisuPlatform.class).toInstance(platform);
         bind(Raisu.class).to(RaisuImpl.class);
         bind(Encoder.class).to(MessagePackEncoder.class);
         bind(CategoryRegistry.class).in(Singleton.class);

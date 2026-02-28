@@ -2,6 +2,11 @@ package com.redactado.raisu.core.dump;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.redactado.raisu.component.v2.Alignment;
+import com.redactado.raisu.component.v2.Gap;
+import com.redactado.raisu.component.v2.Severity;
+import com.redactado.raisu.component.v2.display.*;
+import com.redactado.raisu.component.v2.layout.*;
 import com.redactado.raisu.config.PasteProvider;
 import com.redactado.raisu.core.category.CategoryBuilderImpl;
 import com.redactado.raisu.core.component.*;
@@ -27,10 +32,29 @@ class DumpGeneratorTest {
                 .serverVersion("Paper 1.21.4")
                 .javaVersion("21.0.3")
                 .addCategory(new CategoryBuilderImpl()
+                        .id("status")
+                        .name(Component.text("Status"))
+                        .icon("✅")
+                        .priority(1)
+                        .add(Row.builder()
+                                .gap(Gap.SMALL)
+                                .add(Badge.of("ONLINE", Severity.SUCCESS))
+                                .add(Badge.of("Paper 1.21.4", Severity.INFO))
+                                .add(Badge.of("Java 21", Severity.INFO))
+                                .build())
+                        .add(Row.builder()
+                                .gap(Gap.MEDIUM)
+                                .add(Stat.builder("TPS", "19.8").unit("tps").trend(0.05).build())
+                                .add(Stat.builder("Players", "23").description("of 100 max").build())
+                                .add(Stat.builder("Uptime", "14h 32m").build())
+                                .build())
+                        .add(Alert.of(Severity.WARNING, "High Memory", "Heap usage above 75%"))
+                        .build())
+                .addCategory(new CategoryBuilderImpl()
                         .id("server-info")
                         .name(Component.text("Server Info"))
                         .icon("🖥️")
-                        .priority(1)
+                        .priority(2)
                         .add(new KeyValueImpl("Server Version", "Paper 1.21.4"))
                         .add(new KeyValueImpl("Java Version", "21.0.3"))
                         .add(new KeyValueImpl("Max Players", "100"))
@@ -41,16 +65,29 @@ class DumpGeneratorTest {
                         .id("performance")
                         .name(Component.text("Performance"))
                         .icon("📊")
-                        .priority(2)
+                        .priority(3)
+                        .add(Column.builder()
+                                .gap(Gap.MEDIUM)
+                                .add(Row.builder()
+                                        .gap(Gap.MEDIUM)
+                                        .add(Gauge.builder("Memory", 3072.0, 8192.0)
+                                                .unit("MB")
+                                                .build())
+                                        .add(Gauge.builder("TPS", 19.8, 20.0).unit("tps").build())
+                                        .build())
+                                .add(Sparkline.of(
+                                        "TPS (5 min)",
+                                        List.of(19.5, 19.7, 19.9, 20.0, 19.8, 19.8)))
+                                .add(new GraphImpl("TPS History", tpsHistory()))
+                                .build())
                         .add(new ProgressBarImpl("TPS", 19.8, 20.0))
                         .add(new ProgressBarImpl("Memory", 3072.0, 8192.0))
-                        .add(new GraphImpl("TPS History", tpsHistory()))
                         .build())
                 .addCategory(new CategoryBuilderImpl()
                         .id("players")
                         .name(Component.text("Players"))
                         .icon("👥")
-                        .priority(3)
+                        .priority(4)
                         .add(new TableImpl(
                                 List.of("Name", "Ping", "Game Mode"),
                                 List.of(
@@ -63,13 +100,16 @@ class DumpGeneratorTest {
                         .id("plugins")
                         .name(Component.text("Plugins"))
                         .icon("🔌")
-                        .priority(4)
-                        .add(new ListImpl(List.of(
-                                "EssentialsX 2.21.0",
-                                "WorldEdit 7.3.1",
-                                "LuckPerms 5.4.137",
-                                "Vault 1.7.3",
-                                "Citizens 2.0.33")))
+                        .priority(5)
+                        .add(Panel.builder("Plugin List")
+                                .collapsible(true)
+                                .add(new ListImpl(List.of(
+                                        "EssentialsX 2.21.0",
+                                        "WorldEdit 7.3.1",
+                                        "LuckPerms 5.4.137",
+                                        "Vault 1.7.3",
+                                        "Citizens 2.0.33")))
+                                .build())
                         .add(new TreeImpl(new TreeNodeImpl(
                                 "Plugins",
                                 List.of(
@@ -84,7 +124,7 @@ class DumpGeneratorTest {
                         .id("worlds")
                         .name(Component.text("Worlds"))
                         .icon("🌍")
-                        .priority(5)
+                        .priority(6)
                         .add(new KeyValueImpl("World", "world"))
                         .add(new KeyValueImpl("Seed", "-1234567890123456789"))
                         .add(new KeyValueImpl("Time", "6000"))
@@ -95,6 +135,24 @@ class DumpGeneratorTest {
                                         List.of("world", "441", "1203"),
                                         List.of("world_nether", "128", "87"),
                                         List.of("world_the_end", "16", "4"))))
+                        .build())
+                .addCategory(new CategoryBuilderImpl()
+                        .id("recent-events")
+                        .name(Component.text("Recent Events"))
+                        .icon("📋")
+                        .priority(7)
+                        .add(Timeline.builder()
+                                .add("Server Start", "JVM initialized", 1708646400000L)
+                                .add("Plugins Loaded", "23 plugins loaded successfully", 1708646415000L)
+                                .add("World Loaded", "3 worlds loaded", 1708646420000L)
+                                .add("Player Join", "Steve joined the game", 1708646430000L)
+                                .build())
+                        .add(LogView.builder()
+                                .add(1708646400000L, Severity.INFO, "Server started")
+                                .add(1708646415000L, Severity.INFO, "Done (14.3s)! For help, type \"help\"")
+                                .add(1708646420000L, Severity.WARNING, "Can't keep up! Is the server overloaded?")
+                                .add(1708646430000L, Severity.INFO, "Steve joined the game")
+                                .build())
                         .build())
                 .build();
 
