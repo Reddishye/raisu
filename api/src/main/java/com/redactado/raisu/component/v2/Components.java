@@ -61,8 +61,7 @@ public final class Components {
     }
 
     @NotNull
-    public static Alert alert(
-            @NotNull Severity severity, @NotNull String title, @NotNull String message) {
+    public static Alert alert(@NotNull Severity severity, @NotNull String title, @NotNull String message) {
         return Alert.of(severity, title, message);
     }
 

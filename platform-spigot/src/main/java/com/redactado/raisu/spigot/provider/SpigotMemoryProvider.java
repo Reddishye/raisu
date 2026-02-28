@@ -48,13 +48,12 @@ public final class SpigotMemoryProvider implements CategoryProvider {
                     "Critical Memory",
                     "JVM heap is at " + usedPct + "% capacity — GC pressure likely."));
         } else if (usedRatio >= 0.75) {
-            builder.add(Alert.of(
-                    Severity.WARNING,
-                    "High Memory Usage",
-                    "JVM heap is at " + usedPct + "% capacity."));
+            builder.add(Alert.of(Severity.WARNING, "High Memory Usage", "JVM heap is at " + usedPct + "% capacity."));
         }
 
-        builder.add(Gauge.builder("Heap", (double) usedMb, (double) maxMb).unit("MB").build())
+        builder.add(Gauge.builder("Heap", (double) usedMb, (double) maxMb)
+                        .unit("MB")
+                        .build())
                 .add(Row.builder()
                         .gap(Gap.MEDIUM)
                         .add(Stat.builder("Used", usedMb + " MB").build())

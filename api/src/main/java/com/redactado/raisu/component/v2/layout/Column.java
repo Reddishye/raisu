@@ -24,8 +24,7 @@ public interface Column extends Component {
         return ComponentType.COLUMN;
     }
 
-    record Impl(@NotNull Alignment alignment, @NotNull Gap gap, @NotNull List<Component> children)
-            implements Column {}
+    record Impl(@NotNull Alignment alignment, @NotNull Gap gap, @NotNull List<Component> children) implements Column {}
 
     static @NotNull Builder builder() {
         return new Builder();

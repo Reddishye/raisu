@@ -29,10 +29,7 @@ public final class RaisuImpl implements Raisu {
 
     @Inject
     public RaisuImpl(
-            RaisuPlatform platform,
-            CategoryRegistry categoryRegistry,
-            Encoder encoder,
-            PasteClient pasteClient) {
+            RaisuPlatform platform, CategoryRegistry categoryRegistry, Encoder encoder, PasteClient pasteClient) {
         this.platform = platform;
         this.categoryRegistry = categoryRegistry;
         this.encoder = encoder;
@@ -68,9 +65,8 @@ public final class RaisuImpl implements Raisu {
     @Override
     @NotNull
     public Snapshot snapshot() {
-        SnapshotBuilder builder = snapshotBuilder()
-                .serverVersion(platform.serverVersion())
-                .javaVersion(platform.javaVersion());
+        SnapshotBuilder builder =
+                snapshotBuilder().serverVersion(platform.serverVersion()).javaVersion(platform.javaVersion());
 
         for (Category category : categoryRegistry.getAll()) {
             builder.addCategory(category);
@@ -102,8 +98,7 @@ public final class RaisuImpl implements Raisu {
     }
 
     @NotNull
-    private String packShortcode(
-            @NotNull PasteProvider provider, @NotNull String pasteKey, byte @NotNull [] aesKey) {
+    private String packShortcode(@NotNull PasteProvider provider, @NotNull String pasteKey, byte @NotNull [] aesKey) {
         byte[] keyBytes = pasteKey.getBytes(StandardCharsets.UTF_8);
         byte[] packed = new byte[1 + 1 + keyBytes.length + 16];
         packed[0] = provider.id();

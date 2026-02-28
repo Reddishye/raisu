@@ -26,11 +26,7 @@ public interface Row extends Component {
         return ComponentType.ROW;
     }
 
-    record Impl(
-            @NotNull Alignment alignment,
-            @NotNull Gap gap,
-            boolean wrap,
-            @NotNull List<Component> children)
+    record Impl(@NotNull Alignment alignment, @NotNull Gap gap, boolean wrap, @NotNull List<Component> children)
             implements Row {}
 
     static @NotNull Builder builder() {

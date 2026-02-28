@@ -22,15 +22,13 @@ public interface Alert extends Component {
         return ComponentType.ALERT;
     }
 
-    record Impl(@NotNull Severity severity, @Nullable String title, @NotNull String message)
-            implements Alert {}
+    record Impl(@NotNull Severity severity, @Nullable String title, @NotNull String message) implements Alert {}
 
     static @NotNull Alert of(@NotNull Severity severity, @NotNull String message) {
         return new Impl(severity, null, message);
     }
 
-    static @NotNull Alert of(
-            @NotNull Severity severity, @NotNull String title, @NotNull String message) {
+    static @NotNull Alert of(@NotNull Severity severity, @NotNull String title, @NotNull String message) {
         return new Impl(severity, title, message);
     }
 }

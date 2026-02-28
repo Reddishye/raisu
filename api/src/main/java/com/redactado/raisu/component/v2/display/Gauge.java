@@ -22,8 +22,7 @@ public interface Gauge extends Component {
         return ComponentType.GAUGE;
     }
 
-    record Impl(@NotNull String label, double current, double max, @Nullable String unit)
-            implements Gauge {}
+    record Impl(@NotNull String label, double current, double max, @Nullable String unit) implements Gauge {}
 
     static @NotNull Gauge of(@NotNull String label, double current, double max) {
         return new Impl(label, current, max, null);
@@ -38,7 +37,9 @@ public interface Gauge extends Component {
         private final String label;
         private final double current;
         private final double max;
-        @Nullable private String unit;
+
+        @Nullable
+        private String unit;
 
         private Builder(@NotNull String label, double current, double max) {
             this.label = label;

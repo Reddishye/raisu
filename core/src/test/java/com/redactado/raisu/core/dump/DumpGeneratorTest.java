@@ -2,7 +2,6 @@ package com.redactado.raisu.core.dump;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.redactado.raisu.component.v2.Alignment;
 import com.redactado.raisu.component.v2.Gap;
 import com.redactado.raisu.component.v2.Severity;
 import com.redactado.raisu.component.v2.display.*;
@@ -44,8 +43,13 @@ class DumpGeneratorTest {
                                 .build())
                         .add(Row.builder()
                                 .gap(Gap.MEDIUM)
-                                .add(Stat.builder("TPS", "19.8").unit("tps").trend(0.05).build())
-                                .add(Stat.builder("Players", "23").description("of 100 max").build())
+                                .add(Stat.builder("TPS", "19.8")
+                                        .unit("tps")
+                                        .trend(0.05)
+                                        .build())
+                                .add(Stat.builder("Players", "23")
+                                        .description("of 100 max")
+                                        .build())
                                 .add(Stat.builder("Uptime", "14h 32m").build())
                                 .build())
                         .add(Alert.of(Severity.WARNING, "High Memory", "Heap usage above 75%"))
@@ -73,11 +77,11 @@ class DumpGeneratorTest {
                                         .add(Gauge.builder("Memory", 3072.0, 8192.0)
                                                 .unit("MB")
                                                 .build())
-                                        .add(Gauge.builder("TPS", 19.8, 20.0).unit("tps").build())
+                                        .add(Gauge.builder("TPS", 19.8, 20.0)
+                                                .unit("tps")
+                                                .build())
                                         .build())
-                                .add(Sparkline.of(
-                                        "TPS (5 min)",
-                                        List.of(19.5, 19.7, 19.9, 20.0, 19.8, 19.8)))
+                                .add(Sparkline.of("TPS (5 min)", List.of(19.5, 19.7, 19.9, 20.0, 19.8, 19.8)))
                                 .add(new GraphImpl("TPS History", tpsHistory()))
                                 .build())
                         .add(new ProgressBarImpl("TPS", 19.8, 20.0))
@@ -117,8 +121,7 @@ class DumpGeneratorTest {
                                                 "EssentialsX",
                                                 List.of(new TreeNodeImpl("Vault (soft-depend)", List.of()))),
                                         new TreeNodeImpl(
-                                                "Citizens",
-                                                List.of(new TreeNodeImpl("Vault (depend)", List.of())))))))
+                                                "Citizens", List.of(new TreeNodeImpl("Vault (depend)", List.of())))))))
                         .build())
                 .addCategory(new CategoryBuilderImpl()
                         .id("worlds")

@@ -59,9 +59,7 @@ public final class PaperPerformanceProvider implements CategoryProvider {
                     String.format("Average tick time is %.1fms — performance may degrade.", mspt)));
         } else if (tps1m < 18.0) {
             builder.add(Alert.of(
-                    Severity.WARNING,
-                    "Reduced TPS",
-                    String.format("Server TPS is %.2f — some lag occurring.", tps1m)));
+                    Severity.WARNING, "Reduced TPS", String.format("Server TPS is %.2f — some lag occurring.", tps1m)));
         }
 
         builder.add(Row.builder()

@@ -40,10 +40,7 @@ public final class SpigotPluginsProvider implements CategoryProvider {
         List<List<String>> rows = new ArrayList<>(plugins.length);
         for (Plugin p : plugins) {
             if (p.isEnabled()) enabled++;
-            rows.add(List.of(
-                    p.getName(),
-                    p.getPluginMeta().getVersion(),
-                    p.isEnabled() ? "enabled" : "disabled"));
+            rows.add(List.of(p.getName(), p.getPluginMeta().getVersion(), p.isEnabled() ? "enabled" : "disabled"));
         }
         int disabled = plugins.length - enabled;
 

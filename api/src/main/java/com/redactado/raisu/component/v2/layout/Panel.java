@@ -23,11 +23,7 @@ public interface Panel extends Component {
         return ComponentType.PANEL;
     }
 
-    record Impl(
-            @NotNull String title,
-            boolean collapsible,
-            boolean collapsed,
-            @NotNull List<Component> children)
+    record Impl(@NotNull String title, boolean collapsible, boolean collapsed, @NotNull List<Component> children)
             implements Panel {}
 
     static @NotNull Builder builder(@NotNull String title) {

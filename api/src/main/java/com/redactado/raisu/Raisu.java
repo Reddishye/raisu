@@ -22,16 +22,13 @@ public interface Raisu {
     static Raisu create(@NotNull RaisuPlatform platform) {
         try {
             Class<?> factoryClass = Class.forName("com.redactado.raisu.core.RaisuFactory");
-            java.lang.reflect.Method createMethod =
-                    factoryClass.getMethod("create", RaisuPlatform.class);
+            java.lang.reflect.Method createMethod = factoryClass.getMethod("create", RaisuPlatform.class);
             Raisu instance = (Raisu) createMethod.invoke(null, platform);
 
-            return RaisuLoader.load(
-                    platform.logger(), platform.platformName(), RaisuVersion.VERSION, instance);
+            return RaisuLoader.load(platform.logger(), platform.platformName(), RaisuVersion.VERSION, instance);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(
-                    "Raisu core implementation not found. Add raisu-core dependency to your project.",
-                    e);
+                    "Raisu core implementation not found. Add raisu-core dependency to your project.", e);
         } catch (Exception e) {
             throw new RuntimeException("Failed to create Raisu instance", e);
         }

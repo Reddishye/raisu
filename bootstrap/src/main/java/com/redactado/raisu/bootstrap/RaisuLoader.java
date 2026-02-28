@@ -19,10 +19,7 @@ public final class RaisuLoader {
 
     @NotNull
     public static <T> T load(
-            @NotNull Logger logger,
-            @NotNull String name,
-            @NotNull String version,
-            @NotNull T implementation) {
+            @NotNull Logger logger, @NotNull String name, @NotNull String version, @NotNull T implementation) {
         Version parsedVersion = Version.parse(version);
 
         if (currentInstance == null || currentVersion == null) {
@@ -33,8 +30,7 @@ public final class RaisuLoader {
 
         // At this point, currentVersion is guaranteed to be non-null
         if (parsedVersion.isNewerThan(currentVersion)) {
-            logger.info(
-                    String.format("Raisu updated from v%s to v%s", currentVersion, parsedVersion));
+            logger.info(String.format("Raisu updated from v%s to v%s", currentVersion, parsedVersion));
             setCurrentInstance(implementation, parsedVersion, name);
             return implementation;
         } else {
@@ -46,8 +42,7 @@ public final class RaisuLoader {
         }
     }
 
-    private static <T> void setCurrentInstance(
-            @NotNull T instance, @NotNull Version version, @NotNull String name) {
+    private static <T> void setCurrentInstance(@NotNull T instance, @NotNull Version version, @NotNull String name) {
         currentInstance = instance;
         currentVersion = version;
         loadedFrom = name;

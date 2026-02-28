@@ -26,7 +26,6 @@ import com.redactado.raisu.snapshot.Snapshot;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
-
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,8 +43,7 @@ public final class MessagePackEncoder implements Encoder {
         return baos.toByteArray();
     }
 
-    private void packSnapshot(@NotNull MessagePacker packer, @NotNull Snapshot snapshot)
-            throws IOException {
+    private void packSnapshot(@NotNull MessagePacker packer, @NotNull Snapshot snapshot) throws IOException {
         packer.packMapHeader(5);
 
         packer.packString("version");
@@ -67,8 +65,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packCategory(@NotNull MessagePacker packer, @NotNull Category category)
-            throws IOException {
+    private void packCategory(@NotNull MessagePacker packer, @NotNull Category category) throws IOException {
         packer.packMapHeader(5);
 
         packer.packString("id");
@@ -90,8 +87,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packComponent(@NotNull MessagePacker packer, @NotNull Component component)
-            throws IOException {
+    private void packComponent(@NotNull MessagePacker packer, @NotNull Component component) throws IOException {
         packer.packMapHeader(2);
 
         packer.packString("type");
@@ -122,8 +118,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packKeyValue(@NotNull MessagePacker packer, @NotNull KeyValue kv)
-            throws IOException {
+    private void packKeyValue(@NotNull MessagePacker packer, @NotNull KeyValue kv) throws IOException {
         packer.packMapHeader(2);
         packer.packString("key");
         packer.packString(kv.key());
@@ -165,8 +160,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packProgressBar(@NotNull MessagePacker packer, @NotNull ProgressBar bar)
-            throws IOException {
+    private void packProgressBar(@NotNull MessagePacker packer, @NotNull ProgressBar bar) throws IOException {
         packer.packMapHeader(3);
         packer.packString("label");
         packer.packString(bar.label());
@@ -194,8 +188,7 @@ public final class MessagePackEncoder implements Encoder {
         packTreeNode(packer, tree.root());
     }
 
-    private void packTreeNode(@NotNull MessagePacker packer, @NotNull Tree.TreeNode node)
-            throws IOException {
+    private void packTreeNode(@NotNull MessagePacker packer, @NotNull Tree.TreeNode node) throws IOException {
         packer.packMapHeader(2);
         packer.packString("label");
         packer.packString(node.label());
@@ -206,8 +199,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packChildren(
-            @NotNull MessagePacker packer, @NotNull java.util.List<Component> children)
+    private void packChildren(@NotNull MessagePacker packer, @NotNull java.util.List<Component> children)
             throws IOException {
         packer.packArrayHeader(children.size());
         for (Component child : children) {
@@ -215,8 +207,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packColumn(@NotNull MessagePacker packer, @NotNull Column column)
-            throws IOException {
+    private void packColumn(@NotNull MessagePacker packer, @NotNull Column column) throws IOException {
         packer.packMapHeader(3);
         packer.packString("alignment");
         packer.packString(column.alignment().name());
@@ -292,8 +283,7 @@ public final class MessagePackEncoder implements Encoder {
         packer.packString(alert.message());
     }
 
-    private void packCodeBlock(@NotNull MessagePacker packer, @NotNull CodeBlock codeBlock)
-            throws IOException {
+    private void packCodeBlock(@NotNull MessagePacker packer, @NotNull CodeBlock codeBlock) throws IOException {
         packer.packMapHeader(2);
         packer.packString("content");
         packer.packString(codeBlock.content());
@@ -301,8 +291,7 @@ public final class MessagePackEncoder implements Encoder {
         packer.packString(codeBlock.language());
     }
 
-    private void packLogView(@NotNull MessagePacker packer, @NotNull LogView logView)
-            throws IOException {
+    private void packLogView(@NotNull MessagePacker packer, @NotNull LogView logView) throws IOException {
         packer.packMapHeader(1);
         packer.packString("entries");
         packer.packArrayHeader(logView.entries().size());
@@ -317,8 +306,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packTimeline(@NotNull MessagePacker packer, @NotNull Timeline timeline)
-            throws IOException {
+    private void packTimeline(@NotNull MessagePacker packer, @NotNull Timeline timeline) throws IOException {
         packer.packMapHeader(1);
         packer.packString("events");
         packer.packArrayHeader(timeline.events().size());
@@ -333,8 +321,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packSparkline(@NotNull MessagePacker packer, @NotNull Sparkline sparkline)
-            throws IOException {
+    private void packSparkline(@NotNull MessagePacker packer, @NotNull Sparkline sparkline) throws IOException {
         packer.packMapHeader(2);
         packer.packString("label");
         packer.packString(sparkline.label());
@@ -365,8 +352,7 @@ public final class MessagePackEncoder implements Encoder {
         packer.packString(link.url());
     }
 
-    private void packNullableString(@NotNull MessagePacker packer, @Nullable String value)
-            throws IOException {
+    private void packNullableString(@NotNull MessagePacker packer, @Nullable String value) throws IOException {
         if (value == null) {
             packer.packNil();
         } else {
@@ -374,8 +360,7 @@ public final class MessagePackEncoder implements Encoder {
         }
     }
 
-    private void packNullableDouble(@NotNull MessagePacker packer, @Nullable Double value)
-            throws IOException {
+    private void packNullableDouble(@NotNull MessagePacker packer, @Nullable Double value) throws IOException {
         if (value == null) {
             packer.packNil();
         } else {

@@ -43,9 +43,15 @@ public interface Stat extends Component {
 
         private final String label;
         private final String value;
-        @Nullable private String unit;
-        @Nullable private Double trend;
-        @Nullable private String description;
+
+        @Nullable
+        private String unit;
+
+        @Nullable
+        private Double trend;
+
+        @Nullable
+        private String description;
 
         private Builder(@NotNull String label, @NotNull String value) {
             this.label = label;

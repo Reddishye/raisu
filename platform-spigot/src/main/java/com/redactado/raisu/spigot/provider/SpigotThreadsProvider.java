@@ -50,10 +50,7 @@ public final class SpigotThreadsProvider implements CategoryProvider {
             if (t.isDaemon()) daemon++;
 
             rows.add(List.of(
-                    t.getName(),
-                    state.name(),
-                    t.isDaemon() ? "daemon" : "normal",
-                    String.valueOf(t.getPriority())));
+                    t.getName(), state.name(), t.isDaemon() ? "daemon" : "normal", String.valueOf(t.getPriority())));
         }
 
         CategoryBuilder builder = new CategoryBuilderImpl()
