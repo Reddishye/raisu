@@ -4,6 +4,7 @@ import com.redactado.raisu.component.v2.display.Alert;
 import com.redactado.raisu.component.v2.display.Badge;
 import com.redactado.raisu.component.v2.display.CodeBlock;
 import com.redactado.raisu.component.v2.display.Gauge;
+import com.redactado.raisu.component.v2.display.Iframe;
 import com.redactado.raisu.component.v2.display.Link;
 import com.redactado.raisu.component.v2.display.LogView;
 import com.redactado.raisu.component.v2.display.Sparkline;
@@ -103,5 +104,20 @@ public final class Components {
     @NotNull
     public static Link link(@NotNull String label, @NotNull String url) {
         return Link.of(label, url);
+    }
+
+    @NotNull
+    public static Iframe iframe(@NotNull String url) {
+        return Iframe.of(url);
+    }
+
+    @NotNull
+    public static Iframe iframe(@NotNull String url, @NotNull String title) {
+        return Iframe.of(url, title);
+    }
+
+    @NotNull
+    public static Iframe iframe(@NotNull String url, @NotNull String title, int height) {
+        return Iframe.of(url, title, height);
     }
 }
