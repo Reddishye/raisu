@@ -9,15 +9,7 @@ import com.redactado.raisu.component.ProgressBar;
 import com.redactado.raisu.component.Table;
 import com.redactado.raisu.component.Text;
 import com.redactado.raisu.component.Tree;
-import com.redactado.raisu.component.v2.display.Alert;
-import com.redactado.raisu.component.v2.display.Badge;
-import com.redactado.raisu.component.v2.display.CodeBlock;
-import com.redactado.raisu.component.v2.display.Gauge;
-import com.redactado.raisu.component.v2.display.Link;
-import com.redactado.raisu.component.v2.display.LogView;
-import com.redactado.raisu.component.v2.display.Sparkline;
-import com.redactado.raisu.component.v2.display.Stat;
-import com.redactado.raisu.component.v2.display.Timeline;
+import com.redactado.raisu.component.v2.display.*;
 import com.redactado.raisu.component.v2.layout.Column;
 import com.redactado.raisu.component.v2.layout.Grid;
 import com.redactado.raisu.component.v2.layout.Panel;
@@ -115,6 +107,7 @@ public final class MessagePackEncoder implements Encoder {
             case SPARKLINE -> packSparkline(packer, (Sparkline) component);
             case GAUGE -> packGauge(packer, (Gauge) component);
             case LINK -> packLink(packer, (Link) component);
+            case IFRAME -> packIframe(packer, (Iframe) component);
         }
     }
 
@@ -366,5 +359,15 @@ public final class MessagePackEncoder implements Encoder {
         } else {
             packer.packDouble(value);
         }
+    }
+
+    private void packIframe(@NotNull MessagePacker packer, @NotNull Iframe component) throws IOException {
+        packer.packMapHeader(3);
+        packer.packString("url");
+        packer.packString(component.url());
+        packer.packString("title");
+        packNullableString(packer, component.title());
+        packer.packString("height");
+        packer.packInt(component.height());
     }
 }
